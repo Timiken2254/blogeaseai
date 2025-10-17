@@ -11,11 +11,14 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { FileText, History, Settings, Sparkles, User } from "lucide-react";
+import { FileText, History, LogOut, Settings, Sparkles, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { ProtectedRoute } from "@/components/dashboard/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
   const location = useLocation();
+  const { user, signOut } = useAuth();
   
   const menuItems = [
     { title: "Tools", url: "/dashboard", icon: Sparkles },
@@ -25,7 +28,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <SidebarProvider>
+    <ProtectedRoute>
+      <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <Sidebar>
           <SidebarContent>
@@ -54,6 +58,16 @@ const Dashboard = () => {
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
+            <div className="mt-auto border-t p-4">
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start gap-2" 
+                onClick={signOut}
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </Button>
+            </div>
           </SidebarContent>
         </Sidebar>
 
@@ -70,7 +84,7 @@ const Dashboard = () => {
             <div className="mb-8">
               <h1 className="text-3xl font-bold">AI Tools</h1>
               <p className="text-muted-foreground">
-                Select a tool to start creating amazing content
+                Welcome back, {user?.email}! Select a tool to start creating amazing content
               </p>
             </div>
 
@@ -123,6 +137,7 @@ const Dashboard = () => {
         </main>
       </div>
     </SidebarProvider>
+    </ProtectedRoute>
   );
 };
 

@@ -1,12 +1,70 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Feather } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
 
 const Auth = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Signed in successfully!");
+    }
+    setLoading(false);
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Account created! You can now sign in.");
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Left Side - Branding */}
@@ -17,14 +75,14 @@ const Auth = () => {
             <span className="text-3xl font-bold">BlogEase AI</span>
           </Link>
           <h1 className="text-4xl font-bold leading-tight">
-            Welcome back to BlogEase AI
+            Welcome to BlogEase AI
           </h1>
           <p className="text-xl text-muted-foreground">
-            Your words. Our intelligence.
+            Create, optimize, and grow your blog with AI-powered tools
           </p>
           <div className="rounded-2xl border bg-card/50 p-8 backdrop-blur">
             <blockquote className="italic">
-              "BlogEase AI transformed how I create content. What used to take hours now takes minutes."
+              "The best investment I've made in my blogging journey. BlogEase AI saves me hours every week."
             </blockquote>
             <p className="mt-4 font-semibold">— Sarah Johnson, Content Creator</p>
           </div>
@@ -55,32 +113,33 @@ const Auth = () => {
                     Enter your credentials to access your account
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      placeholder="you@example.com"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input 
-                      id="password" 
-                      type="password"
-                      required
-                    />
-                  </div>
-                  <Button className="w-full" size="lg">
-                    Sign In
-                  </Button>
-                  <div className="text-center">
-                    <Button variant="link" size="sm">
-                      Forgot password?
+                <CardContent>
+                  <form onSubmit={handleSignIn} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder="you@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="password">Password</Label>
+                      <Input 
+                        id="password" 
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <Button className="w-full" size="lg" type="submit" disabled={loading}>
+                      {loading ? "Signing in..." : "Sign In"}
                     </Button>
-                  </div>
+                  </form>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -90,42 +149,51 @@ const Auth = () => {
                 <CardHeader>
                   <CardTitle>Create an account</CardTitle>
                   <CardDescription>
-                    Get started with BlogEase AI for free
+                    Get started with BlogEase AI for $5.99/month
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
-                    <Input 
-                      id="signup-name" 
-                      type="text" 
-                      placeholder="John Doe"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
-                    <Input 
-                      id="signup-email" 
-                      type="email" 
-                      placeholder="you@example.com"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
-                    <Input 
-                      id="signup-password" 
-                      type="password"
-                      required
-                    />
-                  </div>
-                  <Button className="w-full" size="lg">
-                    Create Account
-                  </Button>
-                  <p className="text-center text-xs text-muted-foreground">
-                    By signing up, you agree to our Terms of Service and Privacy Policy
-                  </p>
+                <CardContent>
+                  <form onSubmit={handleSignUp} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-name">Full Name</Label>
+                      <Input 
+                        id="signup-name" 
+                        type="text" 
+                        placeholder="John Doe"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-email">Email</Label>
+                      <Input 
+                        id="signup-email" 
+                        type="email" 
+                        placeholder="you@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signup-password">Password</Label>
+                      <Input 
+                        id="signup-password" 
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        minLength={6}
+                      />
+                    </div>
+                    <Button className="w-full" size="lg" type="submit" disabled={loading}>
+                      {loading ? "Creating account..." : "Create Account"}
+                    </Button>
+                    <p className="text-center text-xs text-muted-foreground">
+                      By signing up, you agree to our Terms of Service and Privacy Policy
+                    </p>
+                  </form>
                 </CardContent>
               </Card>
             </TabsContent>
