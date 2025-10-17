@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import heroDashboard from "@/assets/hero-dashboard.png";
 
 const Hero = () => {
   return (
@@ -32,18 +33,12 @@ const Hero = () => {
           </div>
           
           <div className="relative animate-fade-in animation-delay-200">
-            <div className="rounded-2xl border bg-card p-6 shadow-lg">
-              <div className="mb-4 flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full bg-destructive"></div>
-                <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-                <div className="h-3 w-3 rounded-full bg-primary"></div>
-              </div>
-              <div className="space-y-3">
-                <div className="h-4 w-3/4 animate-pulse rounded bg-muted"></div>
-                <div className="h-4 w-full animate-pulse rounded bg-muted animation-delay-100"></div>
-                <div className="h-4 w-5/6 animate-pulse rounded bg-muted animation-delay-200"></div>
-                <div className="mt-6 h-32 rounded-lg bg-primary/10"></div>
-              </div>
+            <div className="rounded-2xl border bg-card shadow-2xl overflow-hidden">
+              <img 
+                src={heroDashboard} 
+                alt="AI-powered blogging dashboard interface" 
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </div>
