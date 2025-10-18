@@ -45,44 +45,22 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: "Starter",
-      price: "$9",
-      description: "Perfect for individuals getting started",
-      priceId: "pri_starter_test", // Replace with your Paddle price ID
-      features: [
-        "5 AI content generations per day",
-        "Basic SEO tools",
-        "Email support",
-        "1 user account",
-      ],
-    },
-    {
-      name: "Pro",
-      price: "$29",
-      description: "Best for growing businesses",
+      name: "Pro Plan",
+      price: "$5.99",
+      description: "Everything you need for blog success",
       priceId: "pri_pro_test", // Replace with your Paddle price ID
       popular: true,
       features: [
-        "Unlimited AI content generations",
-        "All SEO & optimization tools",
+        "All AI tools unlocked",
+        "Unlimited blog generations",
+        "Advanced SEO optimization",
+        "Title & meta tag creator",
+        "Content rewriter & paraphraser",
+        "Keyword research tools",
+        "Content history & saved drafts",
+        "SERP analysis & insights",
         "Priority support",
-        "5 user accounts",
-        "Advanced analytics",
-        "API access",
-      ],
-    },
-    {
-      name: "Enterprise",
-      price: "$99",
-      description: "For large teams and agencies",
-      priceId: "pri_enterprise_test", // Replace with your Paddle price ID
-      features: [
-        "Everything in Pro",
-        "Unlimited user accounts",
-        "Custom AI training",
-        "Dedicated account manager",
-        "White-label options",
-        "SLA guarantee",
+        "Regular feature updates"
       ],
     },
   ];
@@ -99,19 +77,12 @@ const Pricing = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="flex justify-center max-w-6xl mx-auto">
           {plans.map((plan) => (
             <Card 
               key={plan.name}
-              className={plan.popular ? "border-primary shadow-lg relative" : ""}
+              className="border-primary shadow-lg relative w-full max-w-md ring-2 ring-primary"
             >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
-                    Most Popular
-                  </span>
-                </div>
-              )}
               
               <CardHeader>
                 <CardTitle className="text-2xl">{plan.name}</CardTitle>
@@ -136,7 +107,6 @@ const Pricing = () => {
               <CardFooter>
                 <Button
                   className="w-full"
-                  variant={plan.popular ? "default" : "outline"}
                   onClick={() => openCheckout(plan.priceId)}
                 >
                   Start Free Trial

@@ -18,14 +18,9 @@ const Pricing = () => {
 
         <div className="flex justify-center">
           <Card className="relative w-full max-w-md border-primary shadow-lg ring-2 ring-primary">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <span className="rounded-full bg-primary px-4 py-1 text-sm font-medium text-primary-foreground">
-                Best Value
-              </span>
-            </div>
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl">Pro</CardTitle>
-              <CardDescription>Perfect for bloggers and content creators</CardDescription>
+              <CardTitle className="text-3xl">Pro Plan</CardTitle>
+              <CardDescription>Everything you need for blog success</CardDescription>
               <div className="mt-6">
                 <span className="text-5xl font-bold">$5.99</span>
                 <span className="text-muted-foreground">/month</span>

@@ -10,6 +10,8 @@ import Dashboard from "./pages/Dashboard";
 import ToolPage from "./pages/ToolPage";
 import History from "./pages/History";
 import Pricing from "./pages/Pricing";
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +27,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/tool/:toolId" element={<ToolPage />} />
             <Route path="/dashboard/history" element={<History />} />

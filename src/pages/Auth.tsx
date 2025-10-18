@@ -1,20 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Feather } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect } from "react";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -44,6 +45,12 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!agreeToTerms) {
+      toast.error("Please agree to the Terms of Service and Privacy Policy");
+      return;
+    }
+    
     setLoading(true);
 
     const { error } = await supabase.auth.signUp({
@@ -187,12 +194,27 @@ const Auth = () => {
                         minLength={6}
                       />
                     </div>
-                    <Button className="w-full" size="lg" type="submit" disabled={loading}>
+                    <div className="flex items-start gap-2">
+                      <Checkbox 
+                        id="terms" 
+                        checked={agreeToTerms}
+                        onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
+                        required
+                      />
+                      <Label htmlFor="terms" className="text-xs leading-relaxed cursor-pointer">
+                        I agree to the{" "}
+                        <Link to="/terms" className="text-primary hover:underline">
+                          Terms of Service
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/privacy" className="text-primary hover:underline">
+                          Privacy Policy
+                        </Link>
+                      </Label>
+                    </div>
+                    <Button className="w-full" size="lg" type="submit" disabled={loading || !agreeToTerms}>
                       {loading ? "Creating account..." : "Create Account"}
                     </Button>
-                    <p className="text-center text-xs text-muted-foreground">
-                      By signing up, you agree to our Terms of Service and Privacy Policy
-                    </p>
                   </form>
                 </CardContent>
               </Card>
