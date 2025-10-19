@@ -194,23 +194,39 @@ const Auth = () => {
                         minLength={6}
                       />
                     </div>
-                    <div className="flex items-start gap-2">
-                      <Checkbox 
-                        id="terms" 
-                        checked={agreeToTerms}
-                        onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
-                        required
-                      />
-                      <Label htmlFor="terms" className="text-xs leading-relaxed cursor-pointer">
-                        I agree to the{" "}
-                        <Link to="/terms" className="text-primary hover:underline">
-                          Terms of Service
-                        </Link>{" "}
-                        and{" "}
-                        <Link to="/privacy" className="text-primary hover:underline">
-                          Privacy Policy
-                        </Link>
-                      </Label>
+                    <div className="space-y-3 rounded-lg border bg-muted/50 p-4">
+                      <p className="text-sm font-semibold">Before creating your account:</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        By signing up, you agree to our policies and understand that:
+                      </p>
+                      <ul className="text-xs text-muted-foreground space-y-1 pl-4">
+                        <li>• Subscription is $5.99/month with automatic renewal</li>
+                        <li>• 7-day money-back guarantee for first payment</li>
+                        <li>• No refunds for partial months after 7 days</li>
+                        <li>• You can cancel anytime to stop future charges</li>
+                      </ul>
+                      <div className="flex items-start gap-2 mt-3">
+                        <Checkbox 
+                          id="terms" 
+                          checked={agreeToTerms}
+                          onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
+                          required
+                        />
+                        <Label htmlFor="terms" className="text-xs leading-relaxed cursor-pointer">
+                          I have read and agree to the{" "}
+                          <Link to="/terms" className="text-primary hover:underline font-semibold" target="_blank">
+                            Terms of Service
+                          </Link>
+                          ,{" "}
+                          <Link to="/privacy" className="text-primary hover:underline font-semibold" target="_blank">
+                            Privacy Policy
+                          </Link>
+                          , and{" "}
+                          <Link to="/refund" className="text-primary hover:underline font-semibold" target="_blank">
+                            Refund Policy
+                          </Link>
+                        </Label>
+                      </div>
                     </div>
                     <Button className="w-full" size="lg" type="submit" disabled={loading || !agreeToTerms}>
                       {loading ? "Creating account..." : "Create Account"}
