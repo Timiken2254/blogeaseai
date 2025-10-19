@@ -31,6 +31,12 @@ const ToolPage = () => {
   const handleGenerate = async () => {
     setLoading(true);
     try {
+      // Get the current session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Please sign in to use this tool");
+      }
+
       // Build prompt from inputs
       const prompt = Object.entries(inputs)
         .map(([key, value]) => `${key}: ${value}`)
@@ -41,6 +47,9 @@ const ToolPage = () => {
           toolType: tool.id,
           prompt,
           additionalData: inputs,
+        },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
         },
       });
 
