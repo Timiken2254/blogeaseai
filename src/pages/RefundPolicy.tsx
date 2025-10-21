@@ -19,12 +19,12 @@ const RefundPolicy = () => {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">2. 7-Day Money-Back Guarantee</h2>
+            <h2 className="text-2xl font-semibold mb-4">2. 14-Day Money-Back Guarantee</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              We offer a full refund within 7 days of your initial subscription purchase if you are not satisfied with the service. To qualify for this refund:
+              We offer a full refund within 14 days of your initial subscription purchase if you are not satisfied with the service. To qualify for this refund:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-              <li>You must request the refund within 7 days of your first payment</li>
+              <li>You must request the refund within 14 days of your first payment</li>
               <li>This applies only to your first subscription payment</li>
               <li>The refund request must be made to support@blogease.ai</li>
               <li>Refunds are processed within 5-10 business days</li>
@@ -47,7 +47,7 @@ const RefundPolicy = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-4">4. How to Request a Refund</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              To request a refund within the 7-day money-back guarantee period:
+              To request a refund within the 14-day money-back guarantee period:
             </p>
             <ol className="list-decimal pl-6 space-y-2 text-muted-foreground">
               <li>Email us at support@blogease.ai with the subject line "Refund Request"</li>
@@ -63,7 +63,7 @@ const RefundPolicy = () => {
               Refunds will not be provided in the following cases:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-              <li>After the 7-day money-back guarantee period has expired</li>
+              <li>After the 14-day money-back guarantee period has expired</li>
               <li>For violations of our Terms of Service</li>
               <li>For account suspensions or terminations due to policy violations</li>
               <li>For subscription renewals beyond the first payment</li>

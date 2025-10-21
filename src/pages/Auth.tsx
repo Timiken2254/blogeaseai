@@ -201,8 +201,8 @@ const Auth = () => {
                       </p>
                       <ul className="text-xs text-muted-foreground space-y-1 pl-4">
                         <li>• Subscription is $5.99/month with automatic renewal</li>
-                        <li>• 7-day money-back guarantee for first payment</li>
-                        <li>• No refunds for partial months after 7 days</li>
+                        <li>• 14-day money-back guarantee for first payment</li>
+                        <li>• No refunds for partial months after 14 days</li>
                         <li>• You can cancel anytime to stop future charges</li>
                       </ul>
                       <div className="flex items-start gap-2 mt-3">
