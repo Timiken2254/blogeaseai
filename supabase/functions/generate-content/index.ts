@@ -19,14 +19,15 @@ serve(async (req) => {
       throw new Error("Missing authorization header");
     }
 
-    const supabase = createClient(
+    const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
       { global: { headers: { Authorization: authHeader } } }
     );
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
     if (userError || !user) {
+      console.error("Auth error:", userError);
       throw new Error("Unauthorized");
     }
 
@@ -181,7 +182,7 @@ serve(async (req) => {
     const generatedContent = data.choices[0].message.content;
 
     // Save to history
-    const { error: historyError } = await supabase
+    const { error: historyError } = await supabaseClient
       .from("content_history")
       .insert({
         user_id: user.id,
