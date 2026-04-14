@@ -1,6 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Quote } from "lucide-react";
-import seoPattern from "@/assets/seo-pattern.png";
 
 const testimonials = [
   {
@@ -22,38 +20,33 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section 
-      className="relative py-20 md:py-28 overflow-hidden"
-      style={{
-        backgroundImage: `url(${seoPattern})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      <div className="absolute inset-0 bg-background/95 backdrop-blur-sm"></div>
-      
-      <div className="container relative mx-auto px-4">
+    <section className="py-24 md:py-32">
+      <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-            Loved by Content Creators
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">Testimonials</p>
+          <h2 className="font-display text-3xl font-bold md:text-4xl lg:text-5xl">
+            Loved by <span className="italic">Content Creators</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Join thousands of bloggers who are already creating better content with BlogEase AI
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Join thousands of bloggers who create better content with BlogEase AI
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-2 transition-all hover:shadow-lg">
-              <CardContent className="space-y-4 p-6">
-                <Quote className="h-8 w-8 text-primary/20" />
-                <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
-                <div className="border-t pt-4">
-                  <p className="font-semibold">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div
+              key={index}
+              className="group rounded-2xl border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+            >
+              <Quote className="mb-4 h-8 w-8 text-primary/20" />
+              <p className="font-display text-lg italic leading-relaxed text-foreground/80">
+                "{testimonial.quote}"
+              </p>
+              <div className="mt-6 border-t pt-5">
+                <p className="font-semibold">{testimonial.author}</p>
+                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

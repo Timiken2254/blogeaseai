@@ -1,46 +1,47 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroDashboard from "@/assets/hero-dashboard.png";
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden bg-hero-gradient py-20 md:py-32">
-      <div className="container mx-auto px-4">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="space-y-8 animate-fade-in">
-            <h1 className="text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl">
-              Blog Smarter,{" "}
-              <span className="text-primary">Rank Higher</span>
-              {" "}— With AI
-            </h1>
-            <p className="text-lg text-muted-foreground md:text-xl">
-              Generate blog posts, titles, meta tags, and SEO insights in seconds. 
-              Let AI handle the heavy lifting while you focus on growing your audience.
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button size="lg" className="group" asChild>
-                <Link to="/auth">
-                  Try Free Tools
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="gap-2">
-                <Play className="h-4 w-4" />
-                Watch Demo
-              </Button>
-            </div>
+    <section className="relative overflow-hidden bg-hero-gradient py-24 md:py-36">
+      {/* Decorative elements */}
+      <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+      
+      <div className="container relative mx-auto px-4">
+        <div className="mx-auto max-w-3xl text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-card/80 px-4 py-1.5 text-sm font-medium text-foreground/80 backdrop-blur-sm animate-fade-in">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            Free AI-powered blogging tools
           </div>
           
-          <div className="relative animate-fade-in animation-delay-200">
-            <div className="rounded-2xl border bg-card shadow-2xl overflow-hidden">
-              <img 
-                src={heroDashboard} 
-                alt="AI-powered blogging dashboard interface" 
-                className="w-full h-auto"
-              />
-            </div>
+          <h1 className="font-display text-5xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl animate-fade-in animation-delay-100">
+            Blog Smarter,{" "}
+            <span className="italic text-primary">Rank Higher</span>
+          </h1>
+          
+          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground md:text-xl animate-fade-in animation-delay-200">
+            Generate blog posts, optimize for SEO, and grow your audience — all powered by AI. No subscription required.
+          </p>
+          
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in animation-delay-300">
+            <Button size="lg" className="group rounded-full px-8 text-base" asChild>
+              <Link to="/auth">
+                Start Creating — It's Free
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="rounded-full px-8 text-base" asChild>
+              <Link to="/products/blog-writer">
+                Explore Tools
+              </Link>
+            </Button>
           </div>
+          
+          <p className="mt-6 text-sm text-muted-foreground animate-fade-in animation-delay-400">
+            No credit card needed · All tools included · Unlimited usage
+          </p>
         </div>
       </div>
     </section>

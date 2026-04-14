@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Trash2, Copy } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -20,18 +19,11 @@ const History = () => {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchHistory();
-  }, []);
+  useEffect(() => { fetchHistory(); }, []);
 
   const fetchHistory = async () => {
     try {
-      const { data, error } = await supabase
-        .from("content_history")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(50);
-
+      const { data, error } = await supabase.from("content_history").select("*").order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
       setHistory(data || []);
     } catch (error: any) {
@@ -44,36 +36,20 @@ const History = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from("content_history")
-        .delete()
-        .eq("id", id);
-
+      const { error } = await supabase.from("content_history").delete().eq("id", id);
       if (error) throw error;
-      
       setHistory(prev => prev.filter(item => item.id !== id));
-      toast.success("Deleted successfully");
-    } catch (error: any) {
-      console.error("Error deleting:", error);
-      toast.error("Failed to delete");
-    }
+      toast.success("Deleted");
+    } catch { toast.error("Failed to delete"); }
   };
 
-  const handleCopy = (content: string) => {
-    navigator.clipboard.writeText(content);
-    toast.success("Copied to clipboard!");
-  };
-
-  const getToolName = (toolType: string) => {
-    const tool = toolsConfig.find(t => t.id === toolType);
-    return tool?.title || toolType;
-  };
+  const getToolName = (toolType: string) => toolsConfig.find(t => t.id === toolType)?.title || toolType;
 
   if (loading) {
     return (
       <ProtectedRoute>
         <div className="flex min-h-screen items-center justify-center">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
       </ProtectedRoute>
     );
@@ -81,76 +57,59 @@ const History = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="min-h-screen bg-background">
         <div className="border-b bg-card">
           <div className="container mx-auto px-6 py-6">
-            <h1 className="text-3xl font-bold">Generation History</h1>
-            <p className="text-muted-foreground">View and manage your past AI generations</p>
+            <h1 className="font-display text-3xl font-bold">Generation History</h1>
+            <p className="mt-1 text-muted-foreground">View and manage your past AI generations</p>
           </div>
         </div>
 
         <div className="container mx-auto px-6 py-8">
           {history.length === 0 ? (
-            <Card className="p-12 text-center">
+            <div className="rounded-xl border bg-card p-16 text-center">
               <p className="text-muted-foreground">No generation history yet</p>
-              <Button className="mt-4" asChild>
+              <Button className="mt-4 rounded-full" asChild>
                 <Link to="/dashboard">Start Creating</Link>
               </Button>
-            </Card>
+            </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {history.map((item) => (
-                <Card key={item.id} className="p-6">
+                <div key={item.id} className="rounded-xl border bg-card p-6">
                   <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="mb-2 flex items-center gap-2">
-                        <span className="rounded bg-primary/10 px-2 py-1 text-sm font-medium text-primary">
+                    <div className="flex-1 min-w-0">
+                      <div className="mb-2 flex items-center gap-2 flex-wrap">
+                        <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                           {getToolName(item.tool_type)}
                         </span>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-xs text-muted-foreground">
                           {new Date(item.created_at).toLocaleString()}
                         </span>
                       </div>
-                      
-                      <div className="mb-4">
-                        <p className="text-sm font-medium text-muted-foreground">Input:</p>
-                        <p className="text-sm">
-                          {Object.entries(item.input_data).map(([key, value]) => (
-                            <span key={key}>
-                              {String(value).slice(0, 100)}
-                              {String(value).length > 100 ? "..." : ""}
-                            </span>
-                          ))}
+                      <div className="mb-3">
+                        <p className="text-xs font-semibold text-muted-foreground mb-1">Input:</p>
+                        <p className="text-sm truncate">
+                          {Object.values(item.input_data).map(v => String(v).slice(0, 80)).join(" · ")}
                         </p>
                       </div>
-
                       <div>
-                        <p className="text-sm font-medium text-muted-foreground">Output:</p>
-                        <p className="whitespace-pre-wrap text-sm">
+                        <p className="text-xs font-semibold text-muted-foreground mb-1">Output:</p>
+                        <p className="whitespace-pre-wrap text-sm text-muted-foreground line-clamp-3">
                           {item.output_data.content?.slice(0, 300)}
-                          {item.output_data.content?.length > 300 ? "..." : ""}
                         </p>
                       </div>
                     </div>
-
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleCopy(item.output_data.content)}
-                      >
-                        <Copy className="h-4 w-4" />
+                    <div className="flex gap-1.5 shrink-0">
+                      <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(item.output_data.content); toast.success("Copied!"); }}>
+                        <Copy className="h-3.5 w-3.5" />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
+                      <Button variant="outline" size="sm" onClick={() => handleDelete(item.id)}>
+                        <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           )}

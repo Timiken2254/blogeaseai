@@ -9,7 +9,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import ToolPage from "./pages/ToolPage";
 import History from "./pages/History";
-import Pricing from "./pages/Pricing";
+import ProductPage from "./pages/ProductPage";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
@@ -29,7 +29,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/products/:productId" element={<ProductPage />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/refund" element={<RefundPolicy />} />
@@ -38,7 +38,6 @@ const App = () => (
             <Route path="/dashboard/history" element={<History />} />
             <Route path="/dashboard/settings" element={<Settings />} />
             <Route path="/dashboard/profile" element={<Profile />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

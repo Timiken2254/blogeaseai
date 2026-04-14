@@ -1,51 +1,65 @@
-import { Edit3, TrendingUp, Zap } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Edit3, TrendingUp, Zap, Globe, BarChart3, Shield } from "lucide-react";
 
 const features = [
   {
     icon: Edit3,
-    title: "AI Writer",
-    description: "Create blog posts instantly from your topic with advanced AI that understands your voice.",
+    title: "AI-Powered Writing",
+    description: "Generate complete blog posts, intros, conclusions, and more — all tuned to your voice and style.",
   },
   {
     icon: TrendingUp,
-    title: "SEO Optimizer",
-    description: "Improve your blog visibility with smart keyword insights and optimization recommendations.",
+    title: "SEO That Works",
+    description: "Optimize every piece of content with keyword insights, meta tags, and readability scoring.",
   },
   {
     icon: Zap,
-    title: "One-Click Workflow",
-    description: "From draft to publish in a single dashboard. Streamline your entire content creation process.",
+    title: "Instant Results",
+    description: "From idea to publish-ready draft in seconds. No more staring at a blank page.",
+  },
+  {
+    icon: Globe,
+    title: "Multi-Language Support",
+    description: "Translate and localize your content to reach audiences worldwide.",
+  },
+  {
+    icon: BarChart3,
+    title: "Content Analytics",
+    description: "Predict engagement, test headlines, and discover trending topics in your niche.",
+  },
+  {
+    icon: Shield,
+    title: "100% Free Access",
+    description: "Every tool, every feature — completely free. No hidden fees or premium gates.",
   },
 ];
 
 const Features = () => {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-24 md:py-32">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-            Everything You Need to Blog Better
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">Why BlogEase AI</p>
+          <h2 className="font-display text-3xl font-bold md:text-4xl lg:text-5xl">
+            Everything You Need to Blog{" "}
+            <span className="italic">Better</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Powerful AI tools designed to help you create, optimize, and grow your blog content effortlessly.
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Powerful AI tools designed for every aspect of content creation and optimization.
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
-            <Card 
+            <div 
               key={index} 
-              className="group border-2 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-lg"
+              className="group rounded-2xl border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
-              <CardContent className="space-y-4 p-6">
-                <div className="inline-flex rounded-lg bg-primary/10 p-3 text-primary">
-                  <feature.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </CardContent>
-            </Card>
+              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <feature.icon className="h-6 w-6" />
+              </div>
+              <h3 className="font-display text-xl font-semibold">{feature.title}</h3>
+              <p className="mt-2 text-muted-foreground leading-relaxed">{feature.description}</p>
+            </div>
           ))}
         </div>
       </div>
