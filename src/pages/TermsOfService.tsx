@@ -11,7 +11,7 @@ const TermsOfService = () => {
         
         <div className="space-y-8">
           {[
-            { t: "1. Acceptance of Terms", c: "By accessing and using BlogEase AI ("the Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use the Service." },
+            { t: "1. Acceptance of Terms", c: 'By accessing and using BlogEase AI ("the Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use the Service.' },
             { t: "2. Description of Service", c: "BlogEase AI provides free AI-powered content generation and optimization tools for bloggers and content creators. The Service includes but is not limited to blog generation, SEO optimization, keyword research, and content analysis tools." },
             { t: "3. User Accounts", c: "To access certain features of the Service, you must create an account. You agree to provide accurate, current, and complete information during registration; maintain the security of your password and account; notify us immediately of any unauthorized use of your account; and be responsible for all activities that occur under your account." },
             { t: "4. Free Access", c: "BlogEase AI currently offers all tools and features free of charge. We reserve the right to introduce paid features in the future with 30 days notice. Existing free features will remain accessible." },
