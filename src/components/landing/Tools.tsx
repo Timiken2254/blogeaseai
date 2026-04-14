@@ -1,73 +1,76 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Lightbulb, Search, Sparkles, Type, Wand2 } from "lucide-react";
+import { FileText, Lightbulb, Search, Sparkles, Type, Wand2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const tools = [
   {
     icon: FileText,
     title: "Blog Generator",
-    description: "Generate complete blog posts from a topic or outline",
+    description: "Generate complete, SEO-optimized blog posts from just a topic or outline.",
+    href: "/products/blog-writer",
   },
   {
     icon: Type,
-    title: "Title Creator",
-    description: "Craft compelling headlines that drive clicks",
+    title: "Headline Creator",
+    description: "Craft compelling, click-worthy headlines that drive traffic and engagement.",
+    href: "/products/headline-generator",
   },
   {
     icon: Search,
-    title: "SEO Meta Tag Maker",
-    description: "Create optimized meta descriptions and tags",
+    title: "SEO Toolkit",
+    description: "Meta tags, keyword analysis, readability scores — everything for page-one rankings.",
+    href: "/products/seo-optimizer",
   },
   {
     icon: Lightbulb,
-    title: "Blog Idea Generator",
-    description: "Never run out of content ideas again",
+    title: "Idea Generator",
+    description: "Never run out of blog topics. Get fresh ideas based on your niche and trends.",
+    href: "/products/blog-writer",
   },
   {
     icon: Wand2,
-    title: "Rewriter & Paraphraser",
-    description: "Refresh and improve existing content",
+    title: "Content Rewriter",
+    description: "Refresh, paraphrase, and improve existing content while keeping your message intact.",
+    href: "/products/content-rewriter",
   },
   {
     icon: Sparkles,
-    title: "Keyword Cluster Finder",
-    description: "Discover related keywords for better SEO",
+    title: "Keyword Research",
+    description: "Discover high-impact keywords and clusters to build your content strategy around.",
+    href: "/products/keyword-research",
   },
 ];
 
 const Tools = () => {
   return (
-    <section id="tools" className="bg-muted/50 py-20 md:py-28">
+    <section id="tools" className="bg-muted/40 py-24 md:py-32">
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-            Powerful AI Tools at Your Fingertips
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">Our Tools</p>
+          <h2 className="font-display text-3xl font-bold md:text-4xl lg:text-5xl">
+            AI Tools at Your <span className="italic">Fingertips</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Choose from our collection of specialized tools designed for every aspect of blog creation and optimization.
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Specialized tools for every aspect of blog creation, optimization, and growth.
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool, index) => (
-            <Card key={index} className="group transition-all hover:shadow-lg">
-              <CardHeader>
-                <div className="mb-2 inline-flex rounded-lg bg-primary/10 p-2 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <tool.icon className="h-5 w-5" />
-                </div>
-                <CardTitle className="text-lg">{tool.title}</CardTitle>
-                <CardDescription>{tool.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="ghost" size="sm" className="group/btn" asChild>
-                  <Link to="/auth">
-                    Try Now
-                    <span className="ml-2 transition-transform group-hover/btn:translate-x-1">→</span>
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+            <Link
+              key={index}
+              to={tool.href}
+              className="group flex flex-col rounded-2xl border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"
+            >
+              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <tool.icon className="h-5 w-5" />
+              </div>
+              <h3 className="font-display text-lg font-semibold">{tool.title}</h3>
+              <p className="mt-1.5 flex-1 text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
+              <div className="mt-4 flex items-center gap-1.5 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                Learn more <ArrowRight className="h-3.5 w-3.5" />
+              </div>
+            </Link>
           ))}
         </div>
       </div>
