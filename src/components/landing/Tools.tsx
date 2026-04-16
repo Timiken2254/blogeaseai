@@ -69,17 +69,25 @@ const Tools = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ y: -6, transition: { duration: 0.2, ease: "easeOut" } }}
             >
               <Link
                 to={tool.href}
-                className="group flex h-full flex-col rounded-2xl border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card p-7 shadow-sm transition-shadow duration-300 hover:border-primary/30 hover:shadow-xl"
               >
-                <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                {/* Hover gradient sheen */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                <motion.div
+                  whileHover={{ rotate: 6, scale: 1.08 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  className="relative mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
+                >
                   <tool.icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-display text-lg font-semibold">{tool.title}</h3>
-                <p className="mt-1.5 flex-1 text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
-                <div className="mt-4 flex items-center gap-1.5 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                </motion.div>
+                <h3 className="relative font-display text-lg font-semibold">{tool.title}</h3>
+                <p className="relative mt-1.5 flex-1 text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
+                <div className="relative mt-4 flex items-center gap-1.5 text-sm font-medium text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                   Learn more <ArrowRight className="h-3.5 w-3.5" />
                 </div>
               </Link>
