@@ -63,13 +63,21 @@ const Features = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group rounded-2xl border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              whileHover={{ y: -6, transition: { duration: 0.2, ease: "easeOut" } }}
+              className="group relative overflow-hidden rounded-2xl border bg-card p-8 shadow-sm hover:shadow-xl hover:border-primary/30 transition-shadow duration-300"
             >
-              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+              {/* Hover gradient sheen */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+              <motion.div
+                whileHover={{ rotate: -6, scale: 1.08 }}
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="relative mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
+              >
                 <feature.icon className="h-6 w-6" />
-              </div>
-              <h3 className="font-display text-xl font-semibold">{feature.title}</h3>
-              <p className="mt-2 text-muted-foreground leading-relaxed">{feature.description}</p>
+              </motion.div>
+              <h3 className="relative font-display text-xl font-semibold">{feature.title}</h3>
+              <p className="relative mt-2 text-muted-foreground leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
         </div>
