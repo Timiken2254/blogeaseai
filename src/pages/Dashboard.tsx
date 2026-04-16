@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu,
   SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Feather, History, LogOut, Settings, Sparkles, User, Search, TrendingUp, Zap } from "lucide-react";
+import { Feather, History, LogOut, Settings, Sparkles, User, Search, TrendingUp, Zap, Clock, ArrowRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "@/components/dashboard/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 import { toolsConfig } from "@/lib/toolsConfig";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 
 const Dashboard = () => {
   const location = useLocation();
