@@ -15,10 +15,44 @@ import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 
+type RecentItem = { id: string; tool_type: string; created_at: string };
+
 const Dashboard = () => {
   const location = useLocation();
   const { user, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [recent, setRecent] = useState<RecentItem[]>([]);
+  const [loadingRecent, setLoadingRecent] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+    (async () => {
+      const { data } = await supabase
+        .from("content_history")
+        .select("id, tool_type, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (!active) return;
+      // Dedupe by tool_type, keep most recent 4
+      const seen = new Set<string>();
+      const unique: RecentItem[] = [];
+      for (const row of data ?? []) {
+        if (seen.has(row.tool_type)) continue;
+        seen.add(row.tool_type);
+        unique.push(row as RecentItem);
+        if (unique.length >= 4) break;
+      }
+      setRecent(unique);
+      setLoadingRecent(false);
+    })();
+    return () => { active = false; };
+  }, [user]);
+
+  const recentTools = recent
+    .map((r) => ({ tool: toolsConfig.find((t) => t.id === r.tool_type), createdAt: r.created_at }))
+    .filter((r): r is { tool: typeof toolsConfig[number]; createdAt: string } => !!r.tool);
 
   const menuItems = [
     { title: "Tools", url: "/dashboard", icon: Sparkles },
