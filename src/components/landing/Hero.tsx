@@ -37,9 +37,12 @@ const Hero = () => {
         className="absolute top-1/3 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-accent/10 blur-3xl"
       />
 
+      {/* Animated grain/noise overlay for added depth */}
+      <div className="pointer-events-none absolute inset-0 z-[1] opacity-[0.18] mix-blend-multiply bg-grain animate-grain" />
+
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="container relative mx-auto px-4"
+        className="container relative z-[2] mx-auto px-4"
       >
         <div className="mx-auto max-w-3xl text-center">
           <motion.div
