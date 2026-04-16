@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
@@ -11,21 +12,41 @@ const Hero = () => {
       
       <div className="container relative mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-card/80 px-4 py-1.5 text-sm font-medium text-foreground/80 backdrop-blur-sm animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-6 inline-flex items-center gap-2 rounded-full border bg-card/80 px-4 py-1.5 text-sm font-medium text-foreground/80 backdrop-blur-sm"
+          >
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             Free AI-powered blogging tools
-          </div>
+          </motion.div>
           
-          <h1 className="font-display text-5xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl animate-fade-in animation-delay-100">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-display text-5xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl"
+          >
             Blog Smarter,{" "}
             <span className="italic text-primary">Rank Higher</span>
-          </h1>
+          </motion.h1>
           
-          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground md:text-xl animate-fade-in animation-delay-200">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground md:text-xl"
+          >
             Generate blog posts, optimize for SEO, and grow your audience — all powered by AI. No subscription required.
-          </p>
+          </motion.p>
           
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in animation-delay-300">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          >
             <Button size="lg" className="group rounded-full px-8 text-base" asChild>
               <Link to="/auth">
                 Start Creating — It's Free
@@ -37,11 +58,16 @@ const Hero = () => {
                 Explore Tools
               </Link>
             </Button>
-          </div>
+          </motion.div>
           
-          <p className="mt-6 text-sm text-muted-foreground animate-fade-in animation-delay-400">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-6 text-sm text-muted-foreground"
+          >
             No credit card needed · All tools included · Unlimited usage
-          </p>
+          </motion.p>
         </div>
       </div>
     </section>
