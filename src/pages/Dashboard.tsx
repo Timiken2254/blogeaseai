@@ -1,22 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu,
   SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Feather, History, LogOut, Settings, Sparkles, User, Search, TrendingUp, Zap } from "lucide-react";
+import { Feather, History, LogOut, Settings, Sparkles, User, Search, TrendingUp, Zap, Clock, ArrowRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "@/components/dashboard/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 import { toolsConfig } from "@/lib/toolsConfig";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
+
+type RecentItem = { id: string; tool_type: string; created_at: string };
 
 const Dashboard = () => {
   const location = useLocation();
   const { user, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [recent, setRecent] = useState<RecentItem[]>([]);
+  const [loadingRecent, setLoadingRecent] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+    (async () => {
+      const { data } = await supabase
+        .from("content_history")
+        .select("id, tool_type, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (!active) return;
+      // Dedupe by tool_type, keep most recent 4
+      const seen = new Set<string>();
+      const unique: RecentItem[] = [];
+      for (const row of data ?? []) {
+        if (seen.has(row.tool_type)) continue;
+        seen.add(row.tool_type);
+        unique.push(row as RecentItem);
+        if (unique.length >= 4) break;
+      }
+      setRecent(unique);
+      setLoadingRecent(false);
+    })();
+    return () => { active = false; };
+  }, [user]);
+
+  const recentTools = recent
+    .map((r) => ({ tool: toolsConfig.find((t) => t.id === r.tool_type), createdAt: r.created_at }))
+    .filter((r): r is { tool: typeof toolsConfig[number]; createdAt: string } => !!r.tool);
 
   const menuItems = [
     { title: "Tools", url: "/dashboard", icon: Sparkles },
@@ -129,12 +165,71 @@ const Dashboard = () => {
                 </div>
               </motion.div>
 
+              {/* Recently used tools */}
+              {(loadingRecent || recentTools.length > 0) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                  className="mb-8"
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-primary" />
+                      <h2 className="font-display text-lg font-semibold">Recently used</h2>
+                    </div>
+                    <Link
+                      to="/dashboard/history"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                    >
+                      View history <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+
+                  {loadingRecent ? (
+                    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div key={i} className="h-24 animate-pulse rounded-xl border bg-muted/40" />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+                      {recentTools.map(({ tool, createdAt }, i) => (
+                        <motion.div
+                          key={tool.id}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.35, delay: i * 0.06 }}
+                          whileHover={{ y: -3 }}
+                        >
+                          <Link
+                            to={`/dashboard/tool/${tool.id}`}
+                            className="group flex h-full items-start gap-3 rounded-xl border bg-card p-4 transition-shadow hover:border-primary/30 hover:shadow-md"
+                          >
+                            <div className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                              <tool.icon className="h-4 w-4" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate font-display text-sm font-semibold">{tool.title}</p>
+                              <p className="mt-0.5 text-xs text-muted-foreground">
+                                {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+                              </p>
+                            </div>
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="mb-6 relative max-w-md"
               >
+
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="text"

@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
+import LogoMarquee from "@/components/landing/LogoMarquee";
 import Stats from "@/components/landing/Stats";
 import Tools from "@/components/landing/Tools";
 import Testimonials from "@/components/landing/Testimonials";
@@ -14,6 +15,7 @@ const Index = () => {
       <main>
         <Hero />
         <Features />
+        <LogoMarquee />
         <Stats />
         <Tools />
         <Testimonials />
@@ -25,3 +27,4 @@ const Index = () => {
 };
 
 export default Index;
+
