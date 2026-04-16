@@ -165,7 +165,64 @@ const Dashboard = () => {
                 </div>
               </motion.div>
 
-              <motion.div
+              {/* Recently used tools */}
+              {(loadingRecent || recentTools.length > 0) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.15 }}
+                  className="mb-8"
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-primary" />
+                      <h2 className="font-display text-lg font-semibold">Recently used</h2>
+                    </div>
+                    <Link
+                      to="/dashboard/history"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                    >
+                      View history <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+
+                  {loadingRecent ? (
+                    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div key={i} className="h-24 animate-pulse rounded-xl border bg-muted/40" />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+                      {recentTools.map(({ tool, createdAt }, i) => (
+                        <motion.div
+                          key={tool.id}
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.35, delay: i * 0.06 }}
+                          whileHover={{ y: -3 }}
+                        >
+                          <Link
+                            to={`/dashboard/tool/${tool.id}`}
+                            className="group flex h-full items-start gap-3 rounded-xl border bg-card p-4 transition-shadow hover:border-primary/30 hover:shadow-md"
+                          >
+                            <div className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                              <tool.icon className="h-4 w-4" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate font-display text-sm font-semibold">{tool.title}</p>
+                              <p className="mt-0.5 text-xs text-muted-foreground">
+                                {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+                              </p>
+                            </div>
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 }}
