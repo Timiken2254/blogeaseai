@@ -1,4 +1,5 @@
 import { Edit3, TrendingUp, Zap, Globe, BarChart3, Shield } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -37,7 +38,13 @@ const Features = () => {
   return (
     <section className="py-24 md:py-32">
       <div className="container mx-auto px-4">
-        <div className="mb-16 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 text-center"
+        >
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">Why BlogEase AI</p>
           <h2 className="font-display text-3xl font-bold md:text-4xl lg:text-5xl">
             Everything You Need to Blog{" "}
@@ -46,12 +53,16 @@ const Features = () => {
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
             Powerful AI tools designed for every aspect of content creation and optimization.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
-            <div 
-              key={index} 
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group rounded-2xl border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
@@ -59,7 +70,7 @@ const Features = () => {
               </div>
               <h3 className="font-display text-xl font-semibold">{feature.title}</h3>
               <p className="mt-2 text-muted-foreground leading-relaxed">{feature.description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
